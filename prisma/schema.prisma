@@ -9,6 +9,136 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model User {
+  id            String     @id @default(cuid())
+  name          String?
+  username      String?    @unique
+  email         String?    @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  favorites     Favorite[]
+  ratings       Rating[]
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+}
+
+model Account {
+  id                       String  @id @default(cuid())
+  userId                   String  @unique
+  type                     String
+  provider                 String
+  providerAccountId        String
+  refresh_token            String? @db.Text
+  access_token             String? @db.Text
+  expires_at               Int?
+  token_type               String?
+  scope                    String?
+  id_token                 String? @db.Text
+  session_state            String?
+  refresh_token_expires_in Int?
+  user                     User?   @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Recipe {
+  id            Int           @id @default(autoincrement())
+  title         String        @db.VarChar(225)
+  description   String        @db.LongText
+  imageurl      String        @db.LongText
+  video         String?       @db.Text
+  ingredients   Ingredient[]
+  instructions  Instruction[]
+  favorites     Favorite[]
+  prep_time     Int           @db.SmallInt
+  servings      Int
+  categories    Category[]
+  ratings       Rating[]
+  averageRating Float?
+  created_at    DateTime      @default(dbgenerated("CURRENT_TIMESTAMP")) @db.Timestamp()
+  updated_at    DateTime      @default(dbgenerated("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")) @db.Timestamp()
+}
+
+model Category {
+  id      Int      @id @default(autoincrement())
+  image   String   @db.LongText
+  name    String   @unique
+  recipes Recipe[]
+}
+
+model Ingredient {
+  id       Int    @id @default(autoincrement())
+  quantity String
+  name     String
+  recipeId Int
+  recipe   Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  @@unique([recipeId])
+  @@index([recipeId])
+}
+
+model Instruction {
+  id       Int    @id @default(autoincrement())
+  step     Int
+  detail   String
+  recipeId Int
+  recipe   Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  @@unique([recipeId])
+  @@index([recipeId])
+}
+
+model Rating {
+  id       Int    @id @default(autoincrement())
+  value    Int
+  userId   String
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recipeId Int
+  recipe   Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, recipeId])
+  @@index([recipeId])
+}
+
+model Favorite {
+  id       Int    @id @default(autoincrement())
+  userId   String
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recipeId Int
+  recipe   Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, recipeId])
+  @@index([recipeId, userId])
 }
