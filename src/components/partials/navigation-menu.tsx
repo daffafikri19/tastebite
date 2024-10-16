@@ -13,65 +13,116 @@ import {
     NavigationMenuTrigger,
     navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
+import { usePathname } from "next/navigation"
+import { Button } from "../ui/button"
 
 const components: { title: string; href: string; description: string }[] = [
     {
-        title: "Alert Dialog",
-        href: "/docs/primitives/alert-dialog",
-        description:
-            "A modal dialog that interrupts the user with important content and expects a response.",
+        "title": "Seafood",
+        "href": "/categories/seafood",
+        "description": "Resep masakan laut yang lezat."
     },
     {
-        title: "Hover Card",
-        href: "/docs/primitives/hover-card",
-        description:
-            "For sighted users to preview content available behind a link.",
+        "title": "Sarapan",
+        "href": "/categories/sarapan",
+        "description": "Mulai hari Anda dengan resep sarapan ini."
     },
     {
-        title: "Progress",
-        href: "/docs/primitives/progress",
-        description:
-            "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
+        "title": "Makanan Penutup",
+        "href": "/categories/makanan-penutup",
+        "description": "Hidangan penutup yang manis dan lezat."
     },
     {
-        title: "Scroll-area",
-        href: "/docs/primitives/scroll-area",
-        description: "Visually or semantically separates content.",
+        "title": "Vegetarian",
+        "href": "/categories/vegetarian",
+        "description": "Hidangan vegetarian yang sehat dan lezat."
     },
     {
-        title: "Tabs",
-        href: "/docs/primitives/tabs",
-        description:
-            "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
+        "title": "Vegan",
+        "href": "/categories/vegan",
+        "description": "Resep vegan berbasis tumbuhan yang enak."
     },
     {
-        title: "Tooltip",
-        href: "/docs/primitives/tooltip",
-        description:
-            "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
+        "title": "Pembuka",
+        "href": "/categories/pembuka",
+        "description": "Makanan pembuka untuk memulai hidangan Anda."
     },
+    {
+        "title": "Makan Malam",
+        "href": "/categories/makan-malam",
+        "description": "Resep makan malam yang memuaskan."
+    },
+    {
+        "title": "Cemilan",
+        "href": "/categories/cemilan",
+        "description": "Cemilan yang cepat dan mudah dibuat."
+    },
+    {
+        "title": "Salad",
+        "href": "/categories/salad",
+        "description": "Resep salad yang segar dan sehat."
+    },
+    {
+        "title": "Minuman",
+        "href": "/categories/minuman",
+        "description": "Minuman segar untuk menemani hari Anda."
+    },
+    {
+        "title": "Sup",
+        "href": "/categories/sup",
+        "description": "Sup yang hangat dan mengenyangkan."
+    },
+    {
+        "title": "Bebas Gluten",
+        "href": "/categories/bebas-gluten",
+        "description": "Resep bebas gluten yang lezat."
+    },
+    {
+        "title": "Pasta",
+        "href": "/categories/pasta",
+        "description": "Hidangan pasta yang nikmat."
+    },
+    {
+        "title": "BBQ",
+        "href": "/categories/bbq",
+        "description": "Resep BBQ yang berasap dan lezat."
+    },
+    {
+        "title": "Asia",
+        "href": "/categories/asia",
+        "description": "Masakan Asia yang lezat dan penuh rasa."
+    }
 ]
 
+
+
 export function NavMenu() {
+
+    const pathname = usePathname();
+
     return (
         <NavigationMenu>
             <NavigationMenuList>
                 <NavigationMenuItem>
-                    <Link href="/" legacyBehavior passHref>
-                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                            Homepage
-                        </NavigationMenuLink>
-                    </Link>
+                    <Button variant={pathname === "/" ? "link" : "ghost"}>
+                        <Link href="/" legacyBehavior passHref>
+                            <NavigationMenuLink className="px-5 py-2">
+                                Beranda
+                            </NavigationMenuLink>
+                        </Link>
+                    </Button>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                    <Link href="/recipe" legacyBehavior passHref>
-                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                            Recipes
-                        </NavigationMenuLink>
-                    </Link>
+                    <Button variant={pathname === "/recipe" ? "link" : "ghost"}>
+                        <Link href="/recipe" legacyBehavior passHref>
+                            <NavigationMenuLink className="px-5 py-2">
+                                Resep
+                            </NavigationMenuLink>
+                        </Link>
+                    </Button>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                    <NavigationMenuTrigger>Categories</NavigationMenuTrigger>
+                    <NavigationMenuTrigger className={pathname.includes('categories') ? "text-primary" : ""}>Kategori</NavigationMenuTrigger>
                     <NavigationMenuContent>
                         <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
                             {components.map((component) => (
@@ -79,6 +130,7 @@ export function NavMenu() {
                                     key={component.title}
                                     title={component.title}
                                     href={component.href}
+                                    className="h-full border min-h-[80px] hover:border-primary"
                                 >
                                     {component.description}
                                 </ListItem>

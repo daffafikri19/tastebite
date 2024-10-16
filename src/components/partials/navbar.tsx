@@ -7,6 +7,7 @@ import { ThemeToggle } from './theme-toggle'
 import { MobileNavMenu } from './mobile-nav-menu'
 import { ProfileButton } from './profile-button'
 import { UserProps } from '../../../types'
+import Link from 'next/link'
 
 
 const Navbar = ({ user }: { user?: UserProps }) => {
@@ -20,10 +21,10 @@ const Navbar = ({ user }: { user?: UserProps }) => {
 
                     <div className='flex items-center gap-5'>
                         <Button variant="ghost" className='cursor-pointer px-2 py-1'>
-                            <SearchIcon className='w-5 h-5' />
+                            <Link href="/search"><SearchIcon className='w-5 h-5' /></Link>
                         </Button>
                         <ThemeToggle />
-                        <ProfileButton user={user} />
+                        <ProfileButton enablePop user={user} />
                     </div>
                 </div>
 
@@ -32,7 +33,7 @@ const Navbar = ({ user }: { user?: UserProps }) => {
                         <SearchIcon className='w-5 h-5' />
                     </Button>
                     <ThemeToggle />
-                    <MobileNavMenu />
+                    <MobileNavMenu user={user} />
                 </div>
             </div>
         </nav>

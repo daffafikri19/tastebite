@@ -8,6 +8,13 @@
   }
 }
 
+@font-face {
+  font-family: "geist";
+  src: url("fonts/GeistVF.woff") format("woff"),
+    url("fonts/GeistMonoVF.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+}
 
 @layer base {
   :root {
@@ -66,7 +73,10 @@
   }
 }
 
-:root, html, body, main {
+:root,
+html,
+body,
+main {
   height: 100%
 }
 
@@ -74,7 +84,18 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground h-full;
   }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "geist", sans-serif;
+  font-weight: bolder;
 }

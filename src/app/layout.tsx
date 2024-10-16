@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/provider/theme-provider";
 import { SessionProvider } from "next-auth/react"
 import Navbar from "@/components/partials/navbar";
 import { auth } from "../../auth";
+import { Footer } from "@/components/partials/footer";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -40,10 +41,15 @@ export default async function RootLayout({
           defaultTheme="system"
           enableSystem
         >
-          <main>
-            <Navbar user={session?.user} />
-            <div className="pt-14">
-              {children}
+          <main className="flex flex-col justify-between">
+            <div className="h-full">
+              <Navbar user={session?.user} />
+              <div className="pt-14">
+                {children}
+              </div>
+            </div>
+            <div>
+              <Footer />
             </div>
           </main>
         </ThemeProvider>
