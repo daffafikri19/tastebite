@@ -9,7 +9,7 @@ import {
     SheetTrigger,
 } from "@/components/ui/sheet"
 import { LogOutIcon, MenuIcon } from "lucide-react"
-import { Logo } from "./logo"
+import { Logo } from "../logo"
 import { ProfileButton } from "./profile-button"
 import { UserProps } from "../../../types"
 import Link from "next/link"

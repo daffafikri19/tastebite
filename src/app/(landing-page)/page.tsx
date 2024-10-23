@@ -1,5 +1,5 @@
-import { HeroBanner } from "@/components/partials/hero-banner";
-import { ThemeToggle } from "@/components/partials/theme-toggle";
+import { HeroBanner } from "@/components/landing-page/hero-banner";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default async function Home() {
 

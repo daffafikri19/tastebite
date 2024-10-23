@@ -2,10 +2,6 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { ThemeProvider } from "@/components/provider/theme-provider";
-import { SessionProvider } from "next-auth/react"
-import Navbar from "@/components/partials/navbar";
-import { auth } from "../../auth";
-import { Footer } from "@/components/partials/footer";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -29,8 +25,6 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
 
-  const session = await auth();
-
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -42,15 +36,7 @@ export default async function RootLayout({
           enableSystem
         >
           <main className="flex flex-col justify-between">
-            <div className="h-full">
-              <Navbar user={session?.user} />
-              <div className="pt-14">
-                {children}
-              </div>
-            </div>
-            <div>
-              <Footer />
-            </div>
+            {children}
           </main>
         </ThemeProvider>
       </body>
